@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Warning from "./warning";
 
 // Tipagem para o estado da aplicação
 interface TranslateResponse {
@@ -111,7 +112,9 @@ export const Translator = () => {
           )}
         </div>
       </header>
-
+      <div className="p-4">
+        <Warning />
+      </div>
       <div className="before:content-[''] before:bg-gray-50 before:h-24 before:w-full before:absolute before:border-b before:border-gray-200 before:z-0 z-10">
         <div className="container mx-auto px-0 lg:px-24">
           <div className="flex">
