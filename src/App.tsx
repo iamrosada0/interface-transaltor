@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import Warning from "./warning";
 
 // Tipagem para o estado da aplicação
 interface TranslateResponse {
@@ -12,7 +11,6 @@ interface TranslateError {
 }
 
 export const Translator = () => {
-  const [appsIsOpen, setAppsIsOpen] = useState(false);
   const [text, setText] = useState<string>("");
   const [translatedText, setTranslatedText] = useState<string>("");
   const [direction, setDirection] = useState<string>("English to Portuguese");
@@ -65,68 +63,47 @@ export const Translator = () => {
 
   return (
     <div className="relative bg-white">
-      <header className="flex flex-grow px-5 py-2 border-b border-gray-200">
-        <div className="flex-none">
-          <div className="flex flex-grow mt-1">
-            <button className="hover:bg-gray-100 rounded-full w-9 h-9 mr-2 transition-colors duration-100">
-              <i className="mdi mdi-menu text-gray-500"></i>
-            </button>
-            <a href="https://translate.google.com.tr">
-              <img
-                src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
-                alt="Logo"
-                className="mt-2"
-              />
-            </a>
-            <div
-              onClick={handleTranslate}
-              className="ml-2 my-auto text-lg font-medium text-gray-500"
-            >
-              Translate
-            </div>
-          </div>
-        </div>
-        <div className="flex-grow"></div>
-        <div className="flex-none">
-          <div className="flex">
-            <button
-              className="hover:bg-gray-100 rounded-full w-9 h-9 mt-1 mr-2 transition-colors duration-100"
-              onClick={() => setAppsIsOpen(!appsIsOpen)}
-            >
-              <i className="mdi mdi-apps text-gray-500"></i>
-            </button>
-            <button className="m-1">
-              <img
-                src="https://avatars0.githubusercontent.com/u/17010054?v=4"
-                alt="Avatar"
-                className="object-cover w-9 h-9 rounded-full border shadow"
-              />
-            </button>
-          </div>
-          {appsIsOpen && (
-            <div className="apps-container flex flex-wrap absolute bg-white shadow-md right-5 top-18 px-4 py-2 rounded-md border h-96 overflow-x-hidden overflow-y-scroll custom-scrollbar">
-              <button className="border border-blue-200 text-center text-blue-600 hover:bg-blue-50/50 hover:text-blue-700 mx-auto px-3 py-1 mb-4 mt-10 rounded transition-all duration-50">
-                More from Google
-              </button>
-            </div>
-          )}
-        </div>
-      </header>
-      <div className="p-4">
-        <Warning />
-      </div>
       <div className="before:content-[''] before:bg-gray-50 before:h-24 before:w-full before:absolute before:border-b before:border-gray-200 before:z-0 z-10">
         <div className="container mx-auto px-0 lg:px-24">
           <div className="flex">
             <div className="py-4 z-10">
               <button
-                className="rounded px-3 py-1 bg-blue-100 border border-blue-200 text-base text-blue-700 font-semibold focus:outline-none focus:ring-1 focus:ring-blue-600"
-                onClick={() => handleTranslate}
+                onClick={handleTranslate}
+                disabled={!text || isLoading}
+                className={`uppercase py-3.5 px-3 text-gray-600 font-semibold text-xs lg:text-sm rounded-tl-lg 
+              ${
+                !text || isLoading
+                  ? "bg-gray-200 cursor-not-allowed"
+                  : "hover:bg-gray-50 hover:text-gray-700 transition-colors duration-100"
+              }`}
               >
-                <i className="mdi mdi-translate"></i> Text
-              </button>
-              <button className="rounded px-3 py-1 ml-1 border border-blue-200 text-base text-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600">
-                <i className="mdi mdi-file"></i> Document
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin h-5 w-5 text-gray-600"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    <span className="ml-2">Translating...</span>
+                  </div>
+                ) : (
+                  "Translate"
+                )}
               </button>
             </div>
           </div>
@@ -137,7 +114,7 @@ export const Translator = () => {
                 <div className="flex border-b border-gray-300">
                   <div className="w-7/12">
                     <nav className="flex flex-row rounded-tl-lg">
-                      <button
+                      {/* <button
                         onClick={handleTranslate}
                         disabled={!text || isLoading}
                         className={`uppercase py-3.5 px-3 text-gray-600 font-semibold text-xs lg:text-sm rounded-tl-lg 
@@ -152,7 +129,7 @@ export const Translator = () => {
                         ) : (
                           "Translate"
                         )}
-                      </button>
+                      </button> */}
 
                       <button
                         onClick={() => setDirection("English to Portuguese")}
